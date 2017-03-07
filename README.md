@@ -1,4 +1,5 @@
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](MIT-LICENSE)
+[![Gem Version](https://badge.fury.io/rb/sqlogger.svg)](https://badge.fury.io/rb/sqlogger)
 [![Build Status](https://travis-ci.org/metalels/sqlogger.svg?branch=master)](https://travis-ci.org/metalels/sqlogger)
 [![Code Climate](https://codeclimate.com/github/metalels/sqlogger/badges/gpa.svg)](https://codeclimate.com/github/metalels/sqlogger)
 [![Test Coverage](https://codeclimate.com/github/metalels/sqlogger/badges/coverage.svg)](https://codeclimate.com/github/metalels/sqlogger/coverage)
