@@ -13,9 +13,11 @@ module Sqlogger
           sql_without_sqlogger(event);
 
           payload = event.payload
-          binds   = nil
-          unless (payload[:binds] || []).empty? && payload[:type_casted_binds].present?
-            casted_params = type_casted_binds(payload[:binds], payload[:type_casted_binds])
+          binds   = ""
+          unless (payload[:binds] || []).empty?
+            casted_params = payload[:type_casted_binds] || payload[:binds].map { |attr|
+              type_cast attr.value_for_database
+            }
             binds = "  " + payload[:binds].zip(casted_params).map { |attr, value|
               render_bind(attr, value)
             }.inspect
@@ -26,6 +28,10 @@ module Sqlogger
             dulation: event.duration.round(1),
             name: "#{"CACHE " if payload[:cached]}#{payload[:name]}"
           )
+        end
+
+        def type_casted_binds
+
         end
       end
     end
