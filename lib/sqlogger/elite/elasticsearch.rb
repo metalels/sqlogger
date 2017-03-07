@@ -54,7 +54,7 @@ module Sqlogger
         post_data['dulation'] = dulation
         post_data['payload'] = opts[:name]
 
-        post_data.reject! do |k, v|
+        post_data.reject! do |k, _|
           !send_keys.include? k
         end
 

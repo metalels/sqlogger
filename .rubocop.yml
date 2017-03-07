@@ -1156,4 +1156,9 @@ Style/WordArray:
   Enabled: false
 
 CyclomaticComplexity:
-  Max: 8
+  Max: 12
+
+MethodLength:
+  CountComments: false
+  Max: 100
+
