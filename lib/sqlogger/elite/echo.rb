@@ -11,7 +11,7 @@ module Sqlogger
         info = opts.map do |k,v|
           "#{k.to_s.upcase}: #{v}#{"ms" if k == :dulation}"
         end
-        info.unshift "Time: #{Time.now.to_s}"
+        info.unshift "Time: #{Time.now}"
         info.unshift "PID: #{Process.pid()}"
         info.push "" << "-" * 10
         echo_result = Open3.capture3 "echo \"#{info.join("\n")}\" >> #{echo_file}"

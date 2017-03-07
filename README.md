@@ -1,8 +1,10 @@
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](MIT-LICENSE)
+[![Build Status](https://travis-ci.org/metalels/sqlogger.svg?branch=master)](https://travis-ci.org/metalels/sqlogger)
+[![Code Climate](https://codeclimate.com/github/metalels/sqlogger/badges/gpa.svg)](https://codeclimate.com/github/metalels/sqlogger)
+[![Test Coverage](https://codeclimate.com/github/metalels/sqlogger/badges/coverage.svg)](https://codeclimate.com/github/metalels/sqlogger/coverage)
+[![Issue Count](https://codeclimate.com/github/metalels/sqlogger/badges/issue_count.svg)](https://codeclimate.com/github/metalels/sqlogger)
+
 # Sqlogger
-
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](MIT-LICENSE)  
-[![Build Status](https://travis-ci.org/metalels/sqlogger.svg?branch=master)](https://travis-ci.org/metalels/sqlogger)  
-
 
 Collect 'ActiveRecord sql query' to monitoring system(s).
 

@@ -14,4 +14,5 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 
 gem 'travis', group: :test, require: false
+gem 'simplecov', group: :test, require: false
 gem 'codeclimate-test-reporter', group: :test, require: false

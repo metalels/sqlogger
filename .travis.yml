@@ -8,3 +8,10 @@ cache:
 install: bundle install --path=vendor/bundle
 script:
   - bundle exec rake test
+after_success:
+  - bundle exec codeclimate-test-reporter
+addons:
+  code_climate:
+    repo_token:
+      secure: "J0LN7hAXmE2592Rv0jiLZkUyEUrjhEjM1vmCd56dlKMolqe0l1U4ijd3fekrxmrejaUJSjyfmRF7Ss4NfWEs2pnprXqqFXritJi5dC3kT5uyTBudEQlahgJEIxmMaMjRUocPL/znzcXl+GLwU0UE9N1TK1X1qAFMRFaKMaAQc6jMlh+n6sa1o6fMlJ9Og4yeRCnESmwrSzFEBuq1aT4rX8K/fS6DN6SnmIETXgdcq4Putgcoz0DQqxPIheeJ7m3le4CX/KWKR1pOI5aWJid2/4HUvMLDbKNKL3IJcN+da+ChIYNun78/RXf1Elzu+dgNtNH0HymupX8+FP/kl7NChS+Daj9TaZVW/aILNb/Tx3+v5ifCoCvNUrke1MhKdv2Rt2BClCyVeQVkVwyGRkweI1W+9RT59/RYI1HI1CMCLZFyLUK3uOnbXgW2T1fSgvjzJKy9XqTIkICSZ/Z04dFCBLvktC4h4nytwoPuvoMUWdf9aTb2aDjvsil99PRHN2BOVlvOWTTLx3Su2QugBVA3m8FT8UJvbwK/QIF73WamAwfFImSMu4ws7sK7mj9Law07TtzVRByvyGzOztrj4lQcbC4hipH1n1wS6a3L/iil4NLBygKHGMLPqyXna8RwjNrQTYzt4h16myb4fd8bPsYkKvFA6RKF+775lDf2Lm4kF0E="
+

@@ -67,7 +67,10 @@ module Sqlogger
           http.open_timeout = http_open_timeout
           http.read_timeout = http_read_timeout
 
-          request = Net::HTTP::Post.new uri.path, "content-type": "application/json; charset=utf-8"
+          request = Net::HTTP::Post.new(
+            uri.path,
+            "content-type" => "application/json; charset=utf-8"
+          )
           request.body = JSON.dump post_data
           response = http.request request
           if debug

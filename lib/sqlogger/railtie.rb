@@ -2,7 +2,7 @@ require 'rails'
 
 module Sqlogger
   class Railtie < Rails::Railtie
-    initializer "sqlogger_railtie.configure_rails_initialization" do |app|
+    initializer "sqlogger_railtie.configure_rails_initialization" do
       ActiveSupport.on_load :active_record do
         require 'sqlogger/monkey/active_record/replace_log_subscriber'
         ActiveRecord::LogSubscriber.send :include, Sqlogger::Monkey::ActiveRecord::ReplaceLogSubscriber

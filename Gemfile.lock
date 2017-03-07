@@ -175,6 +175,7 @@ PLATFORMS
 DEPENDENCIES
   codeclimate-test-reporter
   mocha
+  simplecov
   sqlite3
   sqlogger!
   travis
