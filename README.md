@@ -1,6 +1,8 @@
 # Sqlogger
 
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](MIT-LICENSE)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](MIT-LICENSE)  
+[![Build Status](https://travis-ci.org/metalels/sqlogger.svg?branch=master)](https://travis-ci.org/metalels/sqlogger)  
+
 
 Collect 'ActiveRecord sql query' to monitoring system(s).
 

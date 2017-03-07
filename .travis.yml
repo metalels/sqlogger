@@ -1,0 +1,10 @@
+language: ruby
+rvm:
+  - 2.4.0
+before_install: gem install bundler -v 1.14.5
+cache:
+  directories:
+    - vendor/bundle
+install: bundle install --path=vendor/bundle
+script:
+  - bundle exec rake test
