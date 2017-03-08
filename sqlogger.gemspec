@@ -9,14 +9,14 @@ Gem::Specification.new do |s|
   s.version     = Sqlogger::VERSION
   s.authors     = ["metalels"]
   s.email       = ["metalels86@gmail.com"]
-  s.homepage    = "https://github.com/metalels/rails-sqlogger"
+  s.homepage    = "https://github.com/metalels/sqlogger"
   s.summary     = "Collect 'ActiveRecord sql query' to monitoring system(s)."
   s.description = "Collect 'ActiveRecord sql query' to monitoring system(s)."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails", "~> 5.1.0.beta-1"
+  s.add_dependency "rails", ">= 3.1.0"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "mocha"

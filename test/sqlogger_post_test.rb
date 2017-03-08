@@ -92,6 +92,10 @@ DULATION: 0.05ms
   test "call echo post with dummy User creation" do 
     outlog = "test/dummy/log/sqlogger.log"
     File.delete outlog if File.exist? outlog
+    100.times do
+      break unless File.exist?(outlog)
+      sleep 0.05
+    end
     Rails.application.config.sqlogger.post_targets = [:echo]
     Rails.application.config.sqlogger.ignore_sql_commands = %w(SELECT UPDATE CREATE RELEASE SAVEPOINT)
     Rails.application.config.sqlogger.echo.file = outlog
@@ -99,17 +103,17 @@ DULATION: 0.05ms
     User.create(name: "test sqlogger")
     100.times do
       break if File.exist?(outlog)
-      sleep(0.05)
+      sleep 0.05
     end
     log = nil
     200.times do
       break if log = Rails.logger.output.pop
-      sleep(0.005)
+      sleep 0.005
     end
     Rails.application.config.sqlogger.echo.debug = false
     Rails.application.config.sqlogger.post_targets = []
-    assert_equal log, "info:Echo ok."
     assert_equal File.exist?(outlog), true
+    assert_equal log, "info:Echo ok."
     output = File.read(outlog).gsub(
       /Time: \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} .\d{4}\n/,
       "Time: mutable\n"
