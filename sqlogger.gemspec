@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = Sqlogger::VERSION
   s.authors     = ["metalels"]
   s.email       = ["metalels86@gmail.com"]
-  s.homepage    = "https://github.com/metalels/rails-sqlogger"
+  s.homepage    = "https://github.com/metalels/sqlogger"
   s.summary     = "Collect 'ActiveRecord sql query' to monitoring system(s)."
   s.description = "Collect 'ActiveRecord sql query' to monitoring system(s)."
   s.license     = "MIT"

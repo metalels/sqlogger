@@ -5,8 +5,7 @@ class Sqlogger::Test < ActiveSupport::TestCase
     assert_kind_of Module, Sqlogger
     assert_kind_of Module, Sqlogger::Base
     assert_kind_of Module, Sqlogger::Monkey
-    assert_kind_of Module, Sqlogger::Monkey::ActiveRecord
-    assert_kind_of Module, Sqlogger::Monkey::ActiveRecord::ReplaceLogSubscriber
+    assert_kind_of Module, Sqlogger::Monkey::IncludeActiveRecordLogSubscriber
     assert_kind_of Module, Sqlogger::Elite
     assert_kind_of Module, Sqlogger::Elite::Elasticsearch
     assert_kind_of Module, Sqlogger::Elite::Echo
