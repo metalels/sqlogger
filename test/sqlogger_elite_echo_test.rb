@@ -28,7 +28,7 @@ class Sqlogger::Elite::Echo::Test < ActiveSupport::TestCase
       name: "Test",
       dulation: 0.05
     )
-    assert_equal Rails.logger.output.pop , "error:Echo fail. (sh: line 6: path/to/not/found: そのようなファイルやディレクトリはありません)"
+    assert_equal Rails.logger.output.pop , "error:Echo fail."
     Rails.application.config.sqlogger.echo.file = "log/sqlogger.log"
     Rails.application.config.sqlogger.echo.debug = false
   end

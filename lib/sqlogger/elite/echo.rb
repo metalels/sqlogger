@@ -14,7 +14,7 @@ module Sqlogger
           if echo_result.last.exitstatus == 0
             Rails.logger.info "Echo ok."
           else
-            Rails.logger.error "Echo fail. (#{echo_result.second.strip})"
+            Rails.logger.error "Echo fail."
           end
         end
       rescue => ex
