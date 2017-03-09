@@ -11,7 +11,8 @@ Collect 'ActiveRecord sql query' to monitoring system(s).
 <img src="sqlogger_elasticsearch.png" width="580" alt="send sql-log to elasticsearch">
 
 ## Dependency
-Currently only supports Rails 5.1.0beta1 or more.
+Currently supports Rails **3.1.0** and **upper**.  
+Tested minor version between **3.1.0** and **5.1.0beta1**
 
 ## Installation
 Add this line to your application's Gemfile:
