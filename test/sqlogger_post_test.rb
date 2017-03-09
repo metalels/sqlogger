@@ -2,6 +2,7 @@ require 'test_helper'
 
 class Sqlogger::PostTest < ActiveSupport::TestCase
   setup do
+    Rails.application.config.sqlogger.ignore_sql_commands = %w(CREATE RELEASE SAVEPOINT begin rollback)
     @org_logger = Rails.logger
     Rails.logger = LogMock.new
   end
@@ -46,10 +47,65 @@ class Sqlogger::PostTest < ActiveSupport::TestCase
     Rails.application.config.sqlogger.post_targets = []
     assert_equal log, "info:Elasticsearch posted 200."
   end
+
+  test "ignore echo post from Base::logger with ignore_sql_commands" do
+    outlog = "test/dummy/log/sqlogger.log"
+    File.delete outlog if File.exist? outlog
+    100.times do
+      break unless File.exist?(outlog)
+      sleep 0.05
+    end
+    Rails.application.config.sqlogger.post_targets = [:echo]
+    Rails.application.config.sqlogger.echo.file = outlog
+    Rails.application.config.sqlogger.echo.debug = true
+    Sqlogger::Base::logger(
+      sql: "UPDATE test VALUES ?,?",
+      binds: "string: 'mini', bool: false",
+      name: "Not Ignore",
+      dulation: 0.09
+    )
+    Sqlogger::Base::logger(
+      sql: "CREATE DATABASE test",
+      binds: "",
+      name: "Ignore",
+      dulation: 0.15
+    )
+    100.times do
+      break if File.exist?(outlog)
+      sleep(0.05)
+    end
+    log = nil
+    200.times do
+      break if log = Rails.logger.output.pop
+      sleep(0.005)
+    end
+    Rails.application.config.sqlogger.echo.debug = false
+    Rails.application.config.sqlogger.post_targets = []
+    assert_equal log, "info:Echo ok."
+    assert_equal File.exist?(outlog), true
+    output = File.read(outlog).gsub(
+      /Time: \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} .\d{4}\n/,
+      "Time: mutable\n"
+    )
+    expected_val = <<-EOS
+PID: #{Process.pid()}
+Time: mutable
+SQL: UPDATE test VALUES ?,?
+BINDS: string: 'mini', bool: false
+NAME: Not Ignore
+DULATION: 0.09ms
+----------
+    EOS
+    assert_equal output, expected_val
+  end
   
   test "call echo post from Base::logger pass action" do 
     outlog = "test/dummy/log/sqlogger.log"
     File.delete outlog if File.exist? outlog
+    100.times do
+      break unless File.exist?(outlog)
+      sleep 0.05
+    end
     Rails.application.config.sqlogger.post_targets = [:echo]
     Rails.application.config.sqlogger.echo.file = outlog
     Rails.application.config.sqlogger.echo.debug = true
@@ -97,7 +153,6 @@ DULATION: 0.05ms
       sleep 0.05
     end
     Rails.application.config.sqlogger.post_targets = [:echo]
-    Rails.application.config.sqlogger.ignore_sql_commands = %w(SELECT UPDATE CREATE RELEASE SAVEPOINT)
     Rails.application.config.sqlogger.echo.file = outlog
     Rails.application.config.sqlogger.echo.debug = true
     User.create(name: "test sqlogger")
@@ -118,8 +173,8 @@ DULATION: 0.05ms
       /Time: \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} .\d{4}\n/,
       "Time: mutable\n"
     ).gsub(
-      /BINDS: \[\[name, test sqlogger\], .*\]\]\n/,
-      "BINDS: \[\[name, test sqlogger\], mutable\n"
+      /BINDS: \[\['name', 'test sqlogger'\], .*\]\]\n/,
+      "BINDS: \[\['name', 'test sqlogger'\], mutable\n"
     ).gsub(
       /DULATION: \d\.\dms/,
       "DULATION: mutable ms"
@@ -128,8 +183,59 @@ DULATION: 0.05ms
     expected_val = <<-EOS
 PID: #{Process.pid()}
 Time: mutable
-SQL: INSERT INTO users (name, created_at, updated_at) VALUES (?, ?, ?)
-BINDS: [[name, test sqlogger], mutable
+SQL: INSERT INTO 'users' ('name', 'created_at', 'updated_at') VALUES (?, ?, ?)
+BINDS: [['name', 'test sqlogger'], mutable
+DULATION: mutable ms
+NAME: SQL
+----------
+    EOS
+    assert_equal output, expected_val
+  end
+
+  test "call echo post with dummy Image(binary) creation" do
+    image = "sqlogger_elasticsearch.png"
+    outlog = "test/dummy/log/sqlogger.log"
+    File.delete outlog if File.exist? outlog
+    100.times do
+      break unless File.exist?(outlog)
+      sleep 0.05
+    end
+    Rails.application.config.sqlogger.post_targets = [:echo]
+    Rails.application.config.sqlogger.echo.file = outlog
+    Rails.application.config.sqlogger.echo.debug = true
+    Image.create(
+      name: image,
+      body: File.read(image)
+    )
+    100.times do
+      break if File.exist?(outlog)
+      sleep 0.05
+    end
+    log = nil
+    200.times do
+      break if log = Rails.logger.output.pop
+      sleep 0.005
+    end
+    Rails.application.config.sqlogger.echo.debug = false
+    Rails.application.config.sqlogger.post_targets = []
+    assert_equal File.exist?(outlog), true
+    assert_equal log, "info:Echo ok."
+    output = File.read(outlog).gsub(
+      /Time: \d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} .\d{4}\n/,
+      "Time: mutable\n"
+    ).gsub(
+      /BINDS: \[\['name', 'sqlogger_elasticsearch.png'\], \['body', '<33856 bytes of binary data>'\], .*\]\]\n/,
+      "BINDS: \[\['name', 'sqlogger_elasticsearch.png'\], \['body', '<33856 bytes of binary data>'\], mutable\n"
+    ).gsub(
+      /DULATION: \d\.\dms/,
+      "DULATION: mutable ms"
+    )
+
+    expected_val = <<-EOS
+PID: #{Process.pid()}
+Time: mutable
+SQL: INSERT INTO 'images' ('name', 'body', 'created_at', 'updated_at') VALUES (?, ?, ?, ?)
+BINDS: [['name', 'sqlogger_elasticsearch.png'], ['body', '<33856 bytes of binary data>'], mutable
 DULATION: mutable ms
 NAME: SQL
 ----------
