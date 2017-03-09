@@ -15,7 +15,7 @@ module Sqlogger
 
     #define default values
     config.sqlogger.ignore_payload_names = %w(SCHEMA EXPLAIN)
-    config.sqlogger.ignore_sql_commands = []
+    config.sqlogger.ignore_sql_commands = %w(begin rollback SAVEPOINT RELEASE)
     config.sqlogger.post_targets = []
 
     config.sqlogger.elasticsearch.check_name = "metrics-query"
