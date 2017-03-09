@@ -97,7 +97,7 @@ DULATION: 0.05ms
       sleep 0.05
     end
     Rails.application.config.sqlogger.post_targets = [:echo]
-    Rails.application.config.sqlogger.ignore_sql_commands = %w(SELECT UPDATE CREATE RELEASE SAVEPOINT)
+    Rails.application.config.sqlogger.ignore_sql_commands = %w(SELECT UPDATE CREATE RELEASE SAVEPOINT begin rollback)
     Rails.application.config.sqlogger.echo.file = outlog
     Rails.application.config.sqlogger.echo.debug = true
     User.create(name: "test sqlogger")
@@ -134,7 +134,7 @@ DULATION: mutable ms
 NAME: SQL
 ----------
     EOS
-    assert_equal output, expected_val
+    assert_includes output, expected_val
   end
 
   test "call echo post with dummy Image(binary) creation" do
@@ -146,7 +146,7 @@ NAME: SQL
       sleep 0.05
     end
     Rails.application.config.sqlogger.post_targets = [:echo]
-    Rails.application.config.sqlogger.ignore_sql_commands = %w(SELECT UPDATE CREATE RELEASE SAVEPOINT)
+    Rails.application.config.sqlogger.ignore_sql_commands = %w(SELECT UPDATE CREATE RELEASE SAVEPOINT begin rollback)
     Rails.application.config.sqlogger.echo.file = outlog
     Rails.application.config.sqlogger.echo.debug = true
     Image.create(
@@ -186,6 +186,6 @@ DULATION: mutable ms
 NAME: SQL
 ----------
     EOS
-    assert_equal output, expected_val
+    assert_includes output, expected_val
   end
 end

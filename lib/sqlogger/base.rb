@@ -1,32 +1,40 @@
 module Sqlogger
   module Base
-    def self.logger(opts={})
-      return unless opts[:sql]
-      opts[:name] ||= ""
-      opts[:sql] = format_sql opts[:sql]
-      opts[:binds] = format_sql opts[:binds].strip
-      sql_command = opts[:sql].split.first
 
-      ignore_payloads = Rails.application.config.sqlogger.ignore_payload_names
-      ignore_commands = Rails.application.config.sqlogger.ignore_sql_commands
-      post_targets = Rails.application.config.sqlogger.post_targets
+    class << self 
+      def logger opts={}
+        return unless opts[:sql]
+        opts = format_options opts
 
-      return if ignore_payloads.include? opts[:name]
-      return if ignore_commands.include? sql_command
-      if post_targets.include?("elasticsearch") || post_targets.include?(:elasticsearch)
-        Thread.start do
-          Sqlogger::Elite::Elasticsearch.post opts
+        if config.ignore_payload_names.include?(opts[:name]) ||
+            config.ignore_sql_commands.include?(sql_command_of opts[:sql])
+          return
         end
+
+        Sqlogger::Elite.post_with opts
       end
-      if post_targets.include?("echo") || post_targets.include?(:echo)
-        Thread.start do
-          Sqlogger::Elite::Echo::post opts
-        end
+
+      def config
+        Rails.application.config.sqlogger
+      end
+
+      private
+
+      def sql_command_of sql=""
+        sql.split.first
+      end
+
+      def format_sql sql=""
+        sql.gsub(/(\s+|\n)/, " ")
+      end
+
+      def format_options opts={}
+        opts[:name] ||= ""
+        opts[:sql] = format_sql opts[:sql]
+        opts[:binds] = format_sql opts[:binds].strip
+        opts
       end
     end
 
-    def self.format_sql(sql="")
-      sql.gsub(/(\s+|\n)/, " ")
-    end
   end
 end
