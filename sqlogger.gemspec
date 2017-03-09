@@ -13,11 +13,10 @@ Gem::Specification.new do |s|
   s.summary     = "Collect 'ActiveRecord sql query' to monitoring system(s)."
   s.description = "Collect 'ActiveRecord sql query' to monitoring system(s)."
   s.license     = "MIT"
+  s.files       = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
-
+  s.required_ruby_version = '>= 1.9.3'
   s.add_dependency "rails", ">= 3.1.0"
-
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "mocha"
   s.add_development_dependency "webmock"
