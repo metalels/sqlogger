@@ -15,4 +15,11 @@ class Sqlogger::Test < ActiveSupport::TestCase
   test "call Sqlogger::Base::logger" do
     assert_nil Sqlogger::Base::logger()
   end
+
+  test "auto load config" do
+    assert_equal 2.0, Rails.application.config.sqlogger.elasticsearch.post_timeout
+    assert_equal 2.0, Rails.application.config.sqlogger.elasticsearch.open_timeout
+    assert_equal 2.0, Rails.application.config.sqlogger.elasticsearch.read_timeout
+    assert_equal "nothing", Rails.application.config.sqlogger.echo.ext
+  end
 end

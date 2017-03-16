@@ -1,0 +1,33 @@
+## ignore_payload_names
+##   set to not logging selected payloads.
+ignore_payload_names: [SCHEMA, EXPLAIN]
+
+## ignore_sql_commands
+##   set to not logging selected payloads.
+ignore_sql_commands: [begin, rollback, SAVEPOINT, RELEASE]
+
+## post_targets: set to logging target. e.g. [elasticsearch, echo]
+##   (current only support echo and elasticsearch)
+post_targets: []
+
+## elasticsearch options
+##   only uses set to logging to elasticsearch on post_targets.
+elasticsearch:
+  url: "http://localhost:9200/"
+  index_name: "sqlogger-metrics"
+  check_name: "metrics-query"
+  post_keys: [server, status, pid, sql, binds, dulation, payload]
+  critical_dulation: 10.0
+  warning_dulation: 5.0
+  ssl_verify_none: false
+  post_timeout: 2.0
+  open_timeout: 2.0
+  read_timeout: 2.0
+  debug: false
+
+## echo options (sysmem echo to file)
+##   only uses set to logging to echo on post_targets.
+echo:
+  file: "log/sqlogger.log"
+  ext: "nothing"
+  debug: false

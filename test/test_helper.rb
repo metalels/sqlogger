@@ -3,6 +3,7 @@ SimpleCov.start do
   add_filter "/test/"
   add_filter "/vendor/"
 end
+FileUtils.cp "test/templates/sqlogger_test.yml", "test/dummy/config/sqlogger.yml"
 require File.expand_path("../../test/dummy/config/environment.rb", __FILE__)
 ActiveRecord::Migrator.migrations_paths = [File.expand_path("../../test/dummy/db/migrate", __FILE__)]
 require "rails/test_help"
@@ -37,6 +38,5 @@ class LogMock
     self.output.push "#{method_name}:#{param}"
   end
 end
-
 
 Dummy::Application.load_tasks
