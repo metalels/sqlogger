@@ -3,6 +3,19 @@ require 'rails'
 module Sqlogger
   class Railtie < Rails::Railtie
     initializer "sqlogger_railtie.configure_rails_initialization" do
+      sl_conf_file = Rails.root.join("config").join("sqlogger.yml")
+      if File.exist?(sl_conf_file) && sl_conf = YAML.load_file(sl_conf_file)
+        sl_conf.each do |key1, value1|
+          if value1.is_a? Hash
+            value1.each do |key2, value2|
+              config.sqlogger[key1][key2] = value2
+            end
+          else
+            config.sqlogger[key1] = value1
+          end
+        end
+      end
+
       ActiveSupport.on_load :active_record do
         require 'sqlogger/monkey/include_active_record_log_subscriber'
         ActiveRecord::LogSubscriber.send :include, Sqlogger::Monkey::IncludeActiveRecordLogSubscriber

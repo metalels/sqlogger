@@ -1,15 +1,3 @@
-# desc "Explaining what the task does"
-
-task :sqlogger => "sqlogger:install"
-namespace :sqlogger do
-  desc "install sqlogger to a rails project."
-  task :install do
-    conf_path = Rails.root.join("config").join("sqlogger.yml")
-    if File.exist? conf_path
-      puts "Sqlogger has already installed."
-      puts "For more details, see your config/sqlogger.yml file."
-    else
-      conf_default_body = <<-EOS
 ## ignore_payload_names
 ##   set to not logging selected payloads.
 ignore_payload_names: [SCHEMA, EXPLAIN]
@@ -42,10 +30,3 @@ elasticsearch:
 echo:
   file: "log/sqlogger.log"
   debug: false
-      EOS
-      File.write(conf_path, conf_default_body)
-      puts "Sqlogger has been successfully installed."
-      puts "For more details, see your config/sqlogger.yml file."
-    end
-  end
-end

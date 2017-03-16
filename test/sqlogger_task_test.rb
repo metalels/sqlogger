@@ -2,8 +2,8 @@ require 'test_helper'
 
 class Sqlogger::TaskTest < ActiveSupport::TestCase
   test "rake task sqlogger installation" do
-    gen_file = "test/dummy/config/initializers/sqlogger.rb"
-    tpl_file = "test/templates/sqlogger.conf"
+    gen_file = "test/dummy/config/sqlogger.yml"
+    tpl_file = "test/templates/sqlogger.yml"
     File.delete gen_file if File.exist? gen_file
     100.times do
       break unless File.exist? gen_file
@@ -21,7 +21,7 @@ class Sqlogger::TaskTest < ActiveSupport::TestCase
     end
     assert_equal File.exist?(gen_file), true
     assert_equal File.read(gen_file), File.read(tpl_file)
-    assert_equal str_io.string, "Sqlogger has been successfully installed.\nFor more details, see your config/initializers/sqlogger.rb file.\n"
+    assert_equal str_io.string, "Sqlogger has been successfully installed.\nFor more details, see your config/sqlogger.yml file.\n"
 
     File.delete gen_file if File.exist? gen_file
     100.times do
@@ -40,6 +40,6 @@ class Sqlogger::TaskTest < ActiveSupport::TestCase
     $stdout = STDOUT
     assert_equal File.exist?(gen_file), true
     assert_equal File.read(gen_file), "# test body"
-    assert_equal str_io.string, "Sqlogger has already installed.\nFor more details, see your config/initializers/sqlogger.rb file.\n"
+    assert_equal str_io.string, "Sqlogger has already installed.\nFor more details, see your config/sqlogger.yml file.\n"
   end
 end

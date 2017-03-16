@@ -6,7 +6,7 @@
 [![Issue Count](https://codeclimate.com/github/metalels/sqlogger/badges/issue_count.svg)](https://codeclimate.com/github/metalels/sqlogger)
 
 # Sqlogger
-Collect 'ActiveRecord sql query' to monitoring system(s).
+Collect 'ActiveRecord sql query' to monitoring system(s) for development.
 
 <img src="sqlogger_elasticsearch.png" width="580" alt="send sql-log to elasticsearch">
 
@@ -16,6 +16,7 @@ Tested minor version between **3.1.0** and **5.1.0beta1**
 
 ## Installation
 Add this line to your application's Gemfile:
+**recommend to use development only**
 
 ```ruby
 gem 'sqlogger', group: :development
